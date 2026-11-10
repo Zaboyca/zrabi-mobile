@@ -1,0 +1,46 @@
+App Review Notes — zrabi (by.zrabi.zrabi)
+
+PURPOSE / AUDIENCE
+zrabi.by is a marketplace for local services in Belarus. Clients post orders; specialists browse open orders, respond, chat, and complete jobs. Target audience: clients and independent service providers (home repair, beauty, tutoring, auto, etc.).
+
+DEVICES / OS TESTED
+- iPhone (physical device “Anastas”), iOS current stable
+- Built with Xcode + Flutter release
+
+DEMO ACCOUNT (client)
+Email: apple-review@zrabi.by
+Password: ZrabiApple26!
+
+How to sign in: open the app → profile / login → email + password.
+This account can create orders, open chats, and delete the account from Profile.
+
+CORE FLOWS TO REVIEW
+1) Launch app → Home (categories, specialists, create order).
+2) Sign in with the demo account above.
+3) Create order (or open an existing order) → specialist response / chat if available.
+4) Account deletion (Guideline 5.1.1): Profile → “Удалить аккаунт” → enter password → confirm.
+   Success message: “Ваш аккаунт был успешно удалён”.
+   After deletion the session ends and the guest home is shown.
+   Note: please use a fresh copy of the demo account if a previous review already deleted it; we keep the credentials working — contact us in Resolution Center if login fails and we will reset instantly.
+
+UGC / MODERATION
+Users can post order text, chat messages, specialist profile content and photos. Content is moderated; users can be blocked. Contact / support: via in-app Contacts and https://zrabi.by
+
+EXTERNAL SERVICES
+- Backend API: https://zrabi.by (Laravel)
+- Optional social login (Apple / Google / etc. where configured)
+- Push via Firebase Cloud Messaging (not required to review core flows)
+- No In-App Purchases
+
+REGIONAL
+Primary market: Belarus. App language: Russian. Functionality is the same across regions.
+
+SCREEN RECORDING
+Attached in this Resolution Center reply (physical iPhone screen recording).
+The recording starts at app launch and shows: browse home → sign in → core order/chat path → account deletion.
+
+IN-APP PURCHASE
+None.
+
+CONTACT
+We monitor Resolution Center and will respond quickly if anything else is needed.
