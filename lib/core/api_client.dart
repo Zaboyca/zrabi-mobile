@@ -131,8 +131,30 @@ class ApiClient {
       return ApiException(message: 'Нет соединения с сервером.');
     }
 
+    if (statusCode != null && statusCode >= 500) {
+      return ApiException(
+        message: 'Сервер временно недоступен. Попробуйте ещё раз.',
+        statusCode: statusCode,
+      );
+    }
+
+    if (statusCode == 404) {
+      return ApiException(
+        message: 'Страница или данные не найдены.',
+        statusCode: statusCode,
+      );
+    }
+
+    // HTML / plain nginx pages (e.g. 502 Bad Gateway) — never show Dio English text.
+    if (data is String || statusCode != null) {
+      return ApiException(
+        message: 'Не удалось выполнить запрос. Попробуйте позже.',
+        statusCode: statusCode,
+      );
+    }
+
     return ApiException(
-      message: e.message ?? 'Неизвестная ошибка сети',
+      message: 'Неизвестная ошибка сети',
       statusCode: statusCode,
     );
   }
