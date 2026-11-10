@@ -11,14 +11,17 @@ class ApiException implements Exception {
 
   String get displayMessage {
     if (errors.isEmpty) {
-      return _humanize(message);
+      return message;
     }
 
     final parts = errors.values.expand((list) => list).where((e) => e.isNotEmpty);
     if (parts.isEmpty) {
-      return _humanize(message);
+      return message;
     }
 
+<<<<<<< HEAD
+    return parts.join('\n');
+=======
     return parts.map(_humanize).join('\n');
   }
 
@@ -35,7 +38,13 @@ class ApiException implements Exception {
         (lower.contains('unauthenticated') || lower.contains('неавториз'))) {
       return 'Нужно войти в аккаунт';
     }
+    if (lower.contains('no query results for model') ||
+        lower.contains('no query results for models') ||
+        (statusCode == 404 && lower.contains('model ['))) {
+      return 'Данные не найдены или больше недоступны.';
+    }
     return trimmed.isEmpty ? raw : trimmed;
+>>>>>>> 6e0b50f (Fix cancelled-order detail crashing back through the public open feed.)
   }
 
   String? fieldError(String key) {

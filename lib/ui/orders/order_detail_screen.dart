@@ -49,7 +49,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
     try {
       final auth = context.read<AuthController>();
-      final usePublic = widget.publicOpen ||
+      // Public open-feed endpoint only returns open orders. After cancel
+      // (or for signed-in owners) always use the private show endpoint.
+      final usePublic = widget.publicOpen &&
           auth.status != AuthStatus.authenticated;
       final orderService = context.read<OrderService>();
       final order = usePublic
@@ -58,7 +60,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       if (!mounted) {
         return;
       }
-      setState(() => _order = order);
+      setState(() {
+        _order = order;
+        _error = null;
+      });
     } on ApiException catch (e) {
       if (!mounted) {
         return;
@@ -313,11 +318,15 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       if (!mounted) {
         return;
       }
-      setState(() => _order = updated);
+      setState(() {
+        _order = updated;
+        _error = null;
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Заказ отменён')),
       );
-      await _load();
+      // Cancel response already has the updated order. Avoid reloading via
+      // /orders/open/{id}, which 404s for cancelled orders.
     } on ApiException catch (e) {
       if (!mounted) {
         return;
