@@ -4,7 +4,7 @@ import '../../models/marketplace.dart';
 import '../theme/app_theme.dart';
 import 'category_icons.dart';
 
-/// Fixed 4×4 marketplace category grid for the home screen.
+/// Fixed 4×N marketplace category grid for the home screen.
 class CategoryGrid extends StatelessWidget {
   const CategoryGrid({
     super.key,
@@ -14,6 +14,8 @@ class CategoryGrid extends StatelessWidget {
 
   final List<CatalogCategory> categories;
   final ValueChanged<CatalogCategory> onTap;
+
+  static const double _labelHeight = 30;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +30,10 @@ class CategoryGrid extends StatelessWidget {
       itemCount: items.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
-        mainAxisSpacing: 10,
+        mainAxisSpacing: 12,
         crossAxisSpacing: 8,
-        childAspectRatio: 0.78,
+        // Icon 52 + gap 8 + 2-line label 30 + tile padding ≈ square-ish cell.
+        childAspectRatio: 0.82,
       ),
       itemBuilder: (context, index) {
         final category = items[index];
@@ -62,15 +65,15 @@ class _CategoryTile extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(AppTheme.radius),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
           child: Column(
             children: [
               Container(
-                width: 48,
-                height: 48,
+                width: 52,
+                height: 52,
                 decoration: BoxDecoration(
                   color: scheme.primaryContainer.withValues(alpha: 0.55),
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: scheme.primary.withValues(alpha: 0.12),
                   ),
@@ -78,26 +81,25 @@ class _CategoryTile extends StatelessWidget {
                 child: Icon(
                   categoryIconForSlug(category.slug),
                   color: scheme.primary,
-                  size: 24,
+                  size: 26,
                 ),
               ),
-              const SizedBox(height: 6),
-              Expanded(
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.topCenter,
-                  child: Text(
-                    category.name,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 10,
-                      height: 1.1,
-                      fontWeight: FontWeight.w600,
-                      color: scheme.onSurface.withValues(alpha: 0.9),
-                    ),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: CategoryGrid._labelHeight,
+                width: double.infinity,
+                child: Text(
+                  category.name,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 11,
+                    height: 1.2,
+                    letterSpacing: -0.15,
+                    fontWeight: FontWeight.w600,
+                    color: scheme.onSurface.withValues(alpha: 0.88),
                   ),
                 ),
               ),
